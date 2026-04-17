@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VenueSync | Intelligent Operations</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="loader">
+        <div class="glow-bg"></div>
+        <div class="loader-content">
+            <h1 class="logo-text">VenueSync</h1>
+            <div class="loader-dots">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+            </div>
+            <p class="loader-subtitle">Gathering Venue Metrics</p>
+        </div>
+    </div>
+
+    <!-- Minimal Premium Background -->
+    <div class="background-mesh">
+        <div class="mesh-blob blob-1"></div>
+        <div class="mesh-blob blob-2"></div>
+    </div>
+
+    <div class="dashboard-container">
+        
+        <div class="mobile-nav-header premium-panel">
+            <div class="logo">
+                <i class="fa-solid fa-layer-group text-orange"></i>
+                <h2>VenueSync</h2>
+            </div>
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar premium-panel" id="sidebar">
+            <button class="close-sidebar" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="logo desktop-logo">
+                <i class="fa-solid fa-layer-group text-orange"></i>
+                <h2>VenueSync</h2>
+            </div>
+            
+            <p class="nav-label">MAIN MENU</p>
+            <ul class="nav-links">
+                <li class="active" data-target="page-overview"><i class="fa-solid fa-border-all"></i> <span>Overview</span></li>
+                <li data-target="page-map"><i class="fa-solid fa-map-location-dot"></i> <span>Live Map</span></li>
+                <li data-target="page-concessions"><i class="fa-solid fa-mug-hot"></i> <span>Concessions</span></li>
+                <li data-target="page-crowd"><i class="fa-solid fa-users-viewfinder"></i> <span>Crowd Control</span></li>
+                <li data-target="page-personnel"><i class="fa-solid fa-user-shield"></i> <span>Personnel</span></li>
+            </ul>
+
+            <div class="weather-widget premium-panel mt-auto">
+                <div class="weather-icon"><i class="fa-solid fa-cloud-sun text-orange"></i></div>
+                <div>
+                    <h4>72°F / Clear</h4>
+                    <p>Ideal conditions</p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Dashboard Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-title fade-in">
+                    <h1 id="page-title">Operations Overview</h1>
+                    <p>Sector 7G Stadium • Match Day</p>
+                </div>
+                <div class="top-actions fade-in">
+                    
+                    <div class="search-bar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search commands, zones...">
+                        <span class="kb-shortcut">Ctrl+K</span>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-secondary" title="Export Data"><i class="fa-solid fa-download"></i></button>
+                        <button class="btn-primary" onclick="triggerEvacuation()"><i class="fa-solid fa-bolt"></i> Protocol</button>
+                        
+                        <!-- User Profile Menu Tool -->
+                        <div class="profile-menu">
+                            <button class="btn-secondary profile-btn" onclick="toggleProfile()"><i class="fa-solid fa-circle-user"></i></button>
+                            <div class="profile-dropdown premium-panel" id="user-dropdown">
+                                <div class="dropdown-header">
+                                    <p>Logged in as</p>
+                                    <h4>Admin Operations</h4>
+                                </div>
+                                <ul>
+                                    <li><i class="fa-solid fa-gear"></i> Preferences</li>
+                                    <li><i class="fa-solid fa-life-ring"></i> Help Center</li>
+                                    <li style="color: var(--accent-red)"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign off</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Container wrapper -->
+            <div id="pages-container">
+
+                <!-- =============== PAGE 1: OVERVIEW =============== -->
+                <section id="page-overview" class="page-section active">
+                    <div class="stats-row fade-in">
+                        <div class="stat-card premium-panel">
+                            <div class="stat-header">
+                                <p>Total Attendance</p>
+                                <i class="fa-solid fa-users icon-orange"></i>
+                            </div>
+                            <div class="stat-body">
+                                <h3>68,402</h3>
+                                <span class="trend positive"><i class="fa-solid fa-arrow-trend-up"></i> +4.2%</span>
+                            </div>
+                            <div class="mini-chart chart-orange"></div>
+                        </div>
+
+                        <div class="stat-card premium-panel">
+                            <div class="stat-header">
+                                <p>Avg Wait Time</p>
+                                <i class="fa-solid fa-clock icon-orange"></i>
+                            </div>
+                            <div class="stat-body">
+                                <h3><span id="avg-wait">4</span> min</h3>
+                                <span class="trend negative"><i class="fa-solid fa-arrow-trend-down"></i> -1.1%</span>
+                            </div>
+                            <div class="mini-chart chart-orange"></div>
+                        </div>
+
+                        <div class="stat-card premium-panel alert-border">
+                            <div class="stat-header">
+                                <p>Active Alerts</p>
+                                <i class="fa-solid fa-bell text-red pulse"></i>
+                            </div>
+                            <div class="stat-body">
+                                <h3 id="alert-count">2</h3>
+                                <span class="trend neutral">Needs Attention</span>
+                            </div>
+                            <div class="alert-pills">
+                                <span class="pill red">Gate C</span>
+                                <span class="pill orange">Restroom W</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-grid mt-4">
+                        <div class="flex-column gap-4 fade-in">
+                            <div class="widget premium-panel">
+                                <div class="widget-header">
+                                    <h2>Live Flow Analytics</h2>
+                                    <div class="chart-legend">
+                                        <span><div class="legend-dot dot-orange"></div> Entry Rate</span>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <div class="live-chart" id="flow-chart"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex-column gap-4 fade-in">
+                            <div class="widget premium-panel h-full">
+                                <div class="widget-header">
+                                    <h2>Suggested Actions</h2>
+                                    <span class="badge" id="inbox-badge">3</span>
+                                </div>
+                                
+                                <div class="inbox-list" id="inbox">
+                                    <div class="action-item" id="task-1">
+                                        <div class="action-icon bg-red-soft text-red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                        <div class="action-details">
+                                            <h4>Reroute Gate C</h4>
+                                            <p>Gate C wait exceeds 15m. Open spillover Gate A?</p>
+                                        </div>
+                                        <button class="btn-check" onclick="completeTask('task-1')"><i class="fa-solid fa-check"></i></button>
+                                    </div>
+
+                                    <div class="action-item" id="task-2">
+                                        <div class="action-icon bg-orange-soft text-orange"><i class="fa-solid fa-burger"></i></div>
+                                        <div class="action-details">
+                                            <h4>Restock Section 104</h4>
+                                            <p>Pizza inventory at 10%. Dispatch runner?</p>
+                                        </div>
+                                        <button class="btn-check" onclick="completeTask('task-2')"><i class="fa-solid fa-check"></i></button>
+                                    </div>
+
+                                    <div class="action-item" id="task-3">
+                                        <div class="action-icon bg-gray-soft text-orange"><i class="fa-solid fa-broom"></i></div>
+                                        <div class="action-details">
+                                            <h4>Clean West Restroom</h4>
+                                            <p>Density thresholds met for cleaning cycle.</p>
+                                        </div>
+                                        <button class="btn-check" onclick="completeTask('task-3')"><i class="fa-solid fa-check"></i></button>
+                                    </div>
+                                </div>
+                                
+                                <div class="empty-state" id="empty-inbox" style="display: none;">
+                                    <i class="fa-solid fa-check-circle text-orange" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                    <h3>All Caught Up</h3>
+                                    <p>Operations are running smoothly.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =============== PAGE 2: LIVE MAP =============== -->
+                <section id="page-map" class="page-section hidden">
+                    <div class="widget premium-panel map-extended">
+                        <div class="widget-header">
+                            <h2>Full Sector Load Balancing</h2>
+                            <p class="subtitle">Interact with the 3D isometric stadium projection below.</p>
+                        </div>
+                        
+                        <div class="map-controls">
+                            <button class="btn-secondary" onclick="zoomMap(0.1)"><i class="fa-solid fa-plus"></i></button>
+                            <button class="btn-secondary" onclick="zoomMap(-0.1)"><i class="fa-solid fa-minus"></i></button>
+                            <button class="btn-secondary" onclick="resetMap()"><i class="fa-solid fa-compress"></i></button>
+                        </div>
+
+                        <div class="map-viewport">
+                            <div class="minimal-map large-map" id="zoomable-map">
+                                <!-- Enhanced 3D Stadium Wrapper -->
+                                <div class="stadium-wrapper">
+                                    <!-- Pitch Details -->
+                                    <div class="pitch-glow"></div>
+                                    <div class="pitch">
+                                        <div class="center-circle"></div>
+                                        <div class="halfway-line"></div>
+                                        <div class="penalty-box left"></div>
+                                        <div class="penalty-box right"></div>
+                                    </div>
+                                    
+                                    <!-- Architectural Stands -->
+                                    <div class="sector-zone stand-n" id="sector-N-lg" onclick="showSectorInfo('North', '72%', 'Fluid')"><span>North Stand</span></div>
+                                    <div class="sector-zone stand-s" id="sector-S-lg" onclick="showSectorInfo('South', '45%', 'Empty')"><span>South Stand</span></div>
+                                    <div class="sector-zone stand-e congested" id="sector-E-lg" onclick="showSectorInfo('East', '95%', 'Congested')"><span>East</span></div>
+                                    <div class="sector-zone stand-w" id="sector-W-lg" onclick="showSectorInfo('West', '60%', 'Fluid')"><span>West</span></div>
+                                </div>
+                                
+                                <div class="map-tooltip premium-panel" id="map-tooltip">
+                                    <h4 id="tt-name">North Sector</h4>
+                                    <p>Capacity: <span id="tt-cap" class="text-orange">72%</span></p>
+                                    <p>Status: <span id="tt-stat">Fluid</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="map-ledger mt-4">
+                            <div class="ledger-item"><span class="pill outline">Empty</span> &lt; 50% Cap</div>
+                            <div class="ledger-item"><span class="pill orange">Fluid</span> &lt; 80% Cap</div>
+                            <div class="ledger-item"><span class="pill red">Congested</span> &gt; 80% Cap</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =============== PAGE 3: CONCESSIONS =============== -->
+                <section id="page-concessions" class="page-section hidden">
+                    <div class="content-grid">
+                        <div class="flex-column gap-4">
+                            <div class="widget premium-panel h-full">
+                                <div class="widget-header">
+                                    <h2>High-Traffic Vendors</h2>
+                                </div>
+                                <div class="inbox-list">
+                                    <div class="action-item">
+                                        <div class="action-icon bg-orange-soft text-orange"><i class="fa-solid fa-pizza-slice"></i></div>
+                                        <div class="action-details">
+                                            <h4>Level 1 Pizza</h4>
+                                            <p>Wait Time: <strong class="text-orange">12 mins</strong></p>
+                                        </div>
+                                    </div>
+                                    <div class="action-item">
+                                        <div class="action-icon bg-gray-soft text-orange"><i class="fa-solid fa-beer-mug-empty"></i></div>
+                                        <div class="action-details">
+                                            <h4>Draft House (North)</h4>
+                                            <p>Wait Time: <strong class="text-green">3 mins</strong></p>
+                                        </div>
+                                    </div>
+                                    <div class="action-item">
+                                        <div class="action-icon bg-red-soft text-red"><i class="fa-solid fa-hotdog"></i></div>
+                                        <div class="action-details">
+                                            <h4>East Stadium Links</h4>
+                                            <p>Wait Time: <strong class="text-red">18 mins</strong> (Congested)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-column gap-4">
+                            <div class="widget premium-panel">
+                                <div class="widget-header">
+                                    <h2>Inventory Alerts</h2>
+                                </div>
+                                <div class="stat-card premium-panel alert-border" style="box-shadow: none">
+                                    <div class="stat-header">
+                                        <p>Critical Low Stock</p>
+                                        <i class="fa-solid fa-boxes-stacked text-red"></i>
+                                    </div>
+                                    <div class="stat-body">
+                                        <h3>Bottled Water</h3>
+                                        <span class="trend neutral">Restock runner dispatched</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- =============== PAGE 4: CROWD CONTROL =============== -->
+                <section id="page-crowd" class="page-section hidden">
+                    <div class="content-grid">
+                        
+                        <!-- Live AI CCTV Analytics -->
+                        <div class="widget premium-panel">
+                            <div class="widget-header">
+                                <h2>AI Vision Crowd Analytics</h2>
+                                <span class="live-badge"><i class="fa-solid fa-circle"></i> LIVE Feed</span>
+                            </div>
+                            <div class="cctv-container">
+                                <div class="cctv-screen" title="Simulating real-time facial/density bounding boxes">
+                                    <div class="scanline"></div>
+                                    <div class="static-overlay"></div>
+                                    
+                                    <div class="ai-box" style="top: 20%; left: 30%; width: 50px; height: 100px;"><span>P: 0.92</span></div>
+                                    <div class="ai-box" style="top: 40%; left: 70%; width: 45px; height: 90px; border-color: var(--accent-red)"><span>P: 0.88</span></div>
+                                    <div class="ai-box" style="top: 15%; left: 50%; width: 60px; height: 110px;"><span>P: 0.97</span></div>
+                                </div>
+                                <div class="cctv-stats mt-4">
+                                    <div class="c-stat"><span>Density:</span> High</div>
+                                    <div class="c-stat"><span>Est Count:</span> 842</div>
+                                    <div class="c-stat"><span>Anomaly:</span> None</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Crowd Stats -->
+                        <div class="flex-column gap-4">
+                            <div class="widget premium-panel">
+                                <div class="widget-header">
+                                    <h2>Entry Gate Flow</h2>
+                                </div>
+                                <div class="stats-row" style="flex-direction: column;">
+                                    <div class="stat-card premium-panel" style="padding: 1rem;">
+                                        <div class="stat-header"><p>Gate A</p><i class="fa-solid fa-door-open icon-orange"></i></div>
+                                        <div class="stat-body"><h3>2,400</h3><p class="subtitle">ppl/hr</p></div>
+                                    </div>
+                                    <div class="stat-card premium-panel alert-border" style="padding: 1rem;">
+                                        <div class="stat-header"><p>Gate C</p><i class="fa-solid fa-door-open text-red"></i></div>
+                                        <div class="stat-body"><h3 class="text-red">4,190</h3><p class="subtitle">ppl/hr (Bottleneck)</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- =============== PAGE 5: PERSONNEL =============== -->
+                <section id="page-personnel" class="page-section hidden">
+                    <div class="widget premium-panel">
+                        <div class="widget-header">
+                            <h2>Active Roster & Dispatch</h2>
+                            <p class="subtitle">View and assign tasks to on-site teams.</p>
+                        </div>
+                        
+                        <div class="roster-grid">
+                            <div class="roster-card premium-panel">
+                                <div class="roster-top">
+                                    <div class="avatar bg-orange-soft text-orange"><i class="fa-solid fa-user-shield"></i></div>
+                                    <div class="status-dot green" title="Online"></div>
+                                </div>
+                                <div class="roster-info">
+                                    <h4>Alpha Sec Team</h4>
+                                    <p>Security Response</p>
+                                    <p class="location"><i class="fa-solid fa-location-dot"></i> East Stand</p>
+                                </div>
+                                <button class="btn-secondary w-full mt-4"><i class="fa-solid fa-walkie-talkie"></i> Dispatch</button>
+                            </div>
+
+                            <div class="roster-card premium-panel">
+                                <div class="roster-top">
+                                    <div class="avatar bg-red-soft text-red"><i class="fa-solid fa-staff-snake"></i></div>
+                                    <div class="status-dot yellow" title="Busy"></div>
+                                </div>
+                                <div class="roster-info">
+                                    <h4>Medic Unit 2</h4>
+                                    <p>Emergency Services</p>
+                                    <p class="location"><i class="fa-solid fa-location-dot"></i> Gate C</p>
+                                </div>
+                                <button class="btn-secondary w-full mt-4" disabled style="opacity: 0.5"><i class="fa-solid fa-ban"></i> Busy</button>
+                            </div>
+
+                            <div class="roster-card premium-panel">
+                                <div class="roster-top">
+                                    <div class="avatar bg-gray-soft text-primary"><i class="fa-solid fa-broom"></i></div>
+                                    <div class="status-dot green" title="Online"></div>
+                                </div>
+                                <div class="roster-info">
+                                    <h4>Janitorial Crew A</h4>
+                                    <p>Maintenance</p>
+                                    <p class="location"><i class="fa-solid fa-location-dot"></i> Level 1</p>
+                                </div>
+                                <button class="btn-secondary w-full mt-4"><i class="fa-solid fa-walkie-talkie"></i> Dispatch</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- =============== FLOATING AI ASSISTANT =============== -->
+    <div class="ai-bot-container">
+        <!-- Chat Window -->
+        <div class="chatbot-window premium-panel" id="chatbot-window">
+            <div class="chatbot-header">
+                <i class="fa-solid fa-robot text-orange"></i>
+                <div>
+                    <h4>Venue AI Copilot</h4>
+                    <p>Online</p>
+                </div>
+                <button class="btn-secondary" onclick="toggleChat()" style="padding: 0.2rem 0.5rem; margin-left: auto; border:none;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="chat-history" id="chat-history">
+                <div class="msg ai"><p>Hi Admin. Sector East is facing high congestion. Shall I auto-dispatch Alpha Sec Team?</p></div>
+            </div>
+            
+            <form class="chat-input" id="chat-form">
+                <input type="text" id="chat-field" placeholder="Ask specific operations..." autocomplete="off">
+                <button type="submit" class="btn-primary" style="padding: 0.5rem;"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+        </div>
+
+        <button class="fab btn-primary" onclick="toggleChat()">
+            <i class="fa-solid fa-sparkles"></i>
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
